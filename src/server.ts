@@ -9,12 +9,13 @@ import userRoutes from './presentation/routes/userRoutes';
 import cookieParser from "cookie-parser";
 import cors from 'cors';
 import types from "./types/express";
+import morgan from "morgan"
 
 dotenv.config()
 
 const app = express();
 
-
+app.use(morgan("dev"))
 app.use(express.json());
 app.use(cookieParser());
 

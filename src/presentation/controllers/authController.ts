@@ -1,7 +1,6 @@
 import { Request, Response } from "express";
 import { container } from "../../container/inversify.config";
 import { TYPES } from "../../container/types";
-// import { RegisterUser } from "../../application/useCases/register.usecase";
 import { LoginUserUseCase ,RegisterUserUseCase} from "../../domain/usecases/IUserUseCases";
 import generateToken from "../../utils/generateToken";
 
@@ -37,7 +36,7 @@ export const loginUser = async (req: Request, res: Response) => {
     // console.log("request at the auth controller11111...")
     try {
         const { email, password } = req.body;
-        // console.log("Login details :",email, password)
+        console.log("Login details :",email, password)
         const loginUseCase = container.get<LoginUserUseCase>(TYPES.LoginUserCase);
 
         const user = await loginUseCase.execute(email, password);
