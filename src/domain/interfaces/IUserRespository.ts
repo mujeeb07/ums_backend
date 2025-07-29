@@ -10,4 +10,5 @@ export interface IUserRepository {
     udpateUserStatus(userId: string): Promise<IUserDocument | null>;
     findById(userId: string): Promise<IUserDocument | null> 
     userProfile(userId: string): Promise<Omit<IUserDocument, "password"> | null>;
+    findByEmailExcludingUser(email: string, excludeUserId: string): Promise<IUser | null>
 }

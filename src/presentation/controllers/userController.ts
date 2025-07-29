@@ -17,7 +17,7 @@ export const updateUser = async (req: Request, res: Response):Promise<void> => {
        return 
     } catch (error: any) {
         console.log("Update user error:", error);
-         res.status(500).json({ message: "internal server error" });
+         res.status(500).json({ message: error });
          return
     }
 };

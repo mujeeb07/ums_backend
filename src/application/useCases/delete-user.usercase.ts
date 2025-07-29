@@ -31,8 +31,6 @@ export class DeleteUser implements DeleteUserUseCase {
     ) { }
 
     async execute(userId: string): Promise<IUser> {
-        console.log("Delete user execution....");
-        console.log("userId type:", typeof userId);
         console.log("userId value:", userId);
         if (!userId || typeof userId !== 'string') {
             throw new Error("Invalid user ID provided");

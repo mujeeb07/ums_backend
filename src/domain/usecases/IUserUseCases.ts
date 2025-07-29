@@ -27,3 +27,7 @@ export interface DeleteUserUseCase {
 export interface UserProfileUseCase {
   execute(userId: string): Promise<Omit<IUserDocument, "password">>;
 }
+
+export interface findByEmailExcludingUser {
+  execute(email: string, excludedUserId: string): Promise<IUser | null>; 
+}

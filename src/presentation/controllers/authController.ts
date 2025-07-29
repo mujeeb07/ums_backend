@@ -33,10 +33,10 @@ export const registerUser = async (req: Request, res: Response) => {
 }
 
 export const loginUser = async (req: Request, res: Response) => {
-    // console.log("request at the auth controller11111...")
+    console.log("request at the auth controller11111...")
     try {
         const { email, password } = req.body;
-        console.log("Login details :",email, password)
+        console.log("Login details :",email, password) 
         const loginUseCase = container.get<LoginUserUseCase>(TYPES.LoginUserCase);
 
         const user = await loginUseCase.execute(email, password);

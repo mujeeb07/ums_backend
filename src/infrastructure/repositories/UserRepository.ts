@@ -63,5 +63,12 @@ export class UserRepository implements IUserRepository {
         const user = await UserModel.findById(userId);
         return user
     }
+
+    async findByEmailExcludingUser(email: string, excludeUserId: string): Promise<IUser | null> {
+        return await UserModel.findOne({
+            email: email,
+            _id: { $ne: excludeUserId }
+        });
+    }
 }
 
