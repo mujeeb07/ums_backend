@@ -3,6 +3,7 @@ import { UpdateUserUseCase } from "../../domain/usecases/IUserUseCases";
 import { TYPES } from "../../container/types";
 import { IUserRepository } from "../../domain/interfaces/IUserRespository";
 import { IUser } from "../../domain/entity/User";
+import { ErrorHanlder } from "../../presentation/middleware/errorHandlingMiddleware";
 
 @injectable()
 export class UpdateUser implements UpdateUserUseCase {
@@ -20,11 +21,11 @@ export class UpdateUser implements UpdateUserUseCase {
 
         const exsistingUser = await this.userRepo.findByEmailExcludingUser(email, userId);
         if (exsistingUser) {
-            throw new Error("Email already exists for another user");
+            throw new ErrorHanlder(409, "Email already exists for another user");
         }
 
         const currentUser = await this.userRepo.findById(userId);
-        if (!currentUser) throw new Error("User not found");
+        if (!currentUser) throw new ErrorHanlder(404, "User not found");
 
         const updateData = {
             username,
@@ -35,27 +36,9 @@ export class UpdateUser implements UpdateUserUseCase {
 
         const updatedUser = await this.userRepo.updateUser(userId, updateData);
         if (!updatedUser) {
-            throw new Error("Error update user");
+            throw new ErrorHanlder(500, "Error update user");
         }
         return updatedUser
-        // const userData = await this.userRepo.findById(userId);
-        // console.log("UPDATE USER ID:", userId)
-        // // const allUsers = await this.userRepo.getAllUsers()
-        // if(!userData) throw new Error("User not found.");
-        // const updatedData = {
-        //     username,
-        //     email,
-        //     image,
-        //     status
-        // }
-        // const existingEmail = await this.userRepo.findByEmail(email)
-        // // if (existingEmail) {
-        // //     throw new Error("Email is already used by another account.");
-        // //   }
-        // const user = await this.userRepo.updateUser(userId, updatedData);
-
-        // if(!user) throw new Error("error") 
-        // return user
     }
 
 }

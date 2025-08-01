@@ -1,24 +1,23 @@
-import { error } from "console";
 import { Request, Response, NextFunction } from "express";
 
-export class CustomError extends Error {
+
+class ErrorHanlder extends Error {
     statusCode: number;
-    constructor(message: string, statusCode: number = 500) {
-        super(message);
+    message: string;
+
+    constructor(statusCode: number, message: string) {
+        super();
         this.statusCode = statusCode;
+        this.message = message
     }
 }
 
-export const errorHandler = (
-    err: Error | CustomError,
-    req: Request,
-    res: Response,
-    next: NextFunction
-) => {
-    if (err instanceof CustomError) {
-        return res.status(err.statusCode).json({ message: err.message });
-    }
-    next()
-    console.error(err);
-    res.status(500).json({message: "something went wrong"})
+const handleError = (err: ErrorHanlder, req: Request, res: Response, next: NextFunction) => {
+    const { statusCode, message } = err;
+    console.log("Hanlde Error:",err)
+    res.status(statusCode).json({
+        message:message
+    })
 }
+
+export { ErrorHanlder, handleError };

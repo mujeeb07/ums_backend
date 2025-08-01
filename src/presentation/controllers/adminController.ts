@@ -35,7 +35,8 @@ export const createUserByAdmin = async (req: Request, res: Response) => {
         await registerUser.execute(username, email, password, image, role, status);
         res.status(200).json({ message: "user created successfully", registerUser })
     } catch (error) {
-        res.status(500).json({ message: "Internal Server Error" });
+        console.log("Create user by admin error:", error)
+        res.status(500).json({ message: error });
     }
 }
 

@@ -6,6 +6,8 @@ import { protect, userOnly } from '../middleware/authMiddleware';
 
 const router = express.Router();
 
+console.log("register router");
+
 router.post("/register", registerUser);
 router.post("/login", loginUser);
 router.post("/logout", logutUser)

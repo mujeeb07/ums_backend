@@ -4,7 +4,7 @@ import { IUserRepository } from "../../domain/interfaces/IUserRespository";
 import { LoginUserUseCase } from "../../domain/usecases/IUserUseCases"; 
 import { IUser } from "../../domain/entity/User";
 import matchPasswords from "../../utils/matchPassword";
-
+import { ErrorHanlder } from "../../presentation/middleware/errorHandlingMiddleware";
 
 @injectable()
 export class LoginUser implements LoginUserUseCase {
@@ -13,14 +13,16 @@ export class LoginUser implements LoginUserUseCase {
   ) {}
 
   async execute(inputEmail: string, inputPassword: string): Promise<IUser> {
+
     const user = await this.userRepo.findByEmail(inputEmail);
     if (!user) {
-      throw new Error("User not found");
+      throw new ErrorHanlder(404, "User not found");
     }
 
     const isMatch = await matchPasswords(inputPassword, user.password);
     if (!isMatch) {
-      throw new Error("Invalid password");
+
+      throw new ErrorHanlder(401, "Invalid password");
     }
 
     const {_id,username,email,password,image,role,status } = user

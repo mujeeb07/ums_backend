@@ -3,6 +3,7 @@ import { TYPES } from "../../container/types";
 import { IUserRepository } from "../../domain/interfaces/IUserRespository";
 import { GetAllUsersUseCase } from "../../domain/usecases/IUserUseCases";
 import { IUserDocument } from "../../infrastructure/database/models/UserModel";
+import { ErrorHanlder } from "../../presentation/middleware/errorHandlingMiddleware";
 
 @injectable()
 export class GetAllUsers implements GetAllUsersUseCase {
@@ -13,7 +14,7 @@ export class GetAllUsers implements GetAllUsersUseCase {
         // console.log(searchQuery,pageNumber,limit);
         const users = await this.userRepo.getAllUsers(searchQuery, limit, pageNumber);
         // console.log("Executed users:",users)
-        if(!users) throw new Error("failed to fecth users.")
+        if(!users) throw new ErrorHanlder(500, "Failed to fecth users.")
         return users;
     }
 }

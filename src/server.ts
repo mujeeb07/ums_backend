@@ -10,11 +10,10 @@ import cookieParser from "cookie-parser";
 import cors from 'cors';
 import types from "./types/express";
 import morgan from "morgan";
-import { errorHandler } from "./presentation/middleware/errorHandlingMiddleware";
+import { handleError } from "./presentation/middleware/errorHandlingMiddleware";
 
 
 dotenv.config()
-
 const app = express();
 
 app.use(morgan("dev"))
@@ -25,14 +24,14 @@ app.use(cors({
     origin: process.env.allowedOrigins,
     credentials: true,
     methods: ["POST", "GET", "PUT", "PATCH", "DELETE"],
-    
 }))
 
 
 app.use("/api/v1/auth", authRoutes);
 app.use("/api/v1/admin", adminRoutes);
 app.use("/api/v1/users", userRoutes);
-// app.use(errorHandler)
+
+app.use(handleError)
 
 mongoose
     .connect(process.env.MONGO_URI!)
